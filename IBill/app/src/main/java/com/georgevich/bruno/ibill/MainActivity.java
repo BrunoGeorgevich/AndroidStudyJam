@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     ListView billListView;
     BillListViewAdapter adapterBillListView;
     public static final int RQ_NEWBILLACTIVITY = 1;
+    public static final int RQ_DETAILEDBILLACTIVITY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            System.out.println("Click");
+            Intent it = new Intent(getBaseContext(), DetailedBillActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable("bill",(Bill) parent.getItemAtPosition(position));
+            it.putExtras(b);
+            startActivityForResult(it,RQ_DETAILEDBILLACTIVITY);
         }
 
         @Override

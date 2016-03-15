@@ -6,5 +6,5 @@
 <li>HappyBirthday</li>
 <li>JustJava</li>
 <li>MyCard</li>
-<li>Tasks</li>
+<li>iBill</li>
 </ul>
