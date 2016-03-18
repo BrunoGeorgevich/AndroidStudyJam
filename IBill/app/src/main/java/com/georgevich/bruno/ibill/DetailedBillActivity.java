@@ -3,6 +3,7 @@ package com.georgevich.bruno.ibill;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ public class DetailedBillActivity extends AppCompatActivity {
     TextView detailedName;
     TextView detailedValue;
     CalendarView detailedDate;
-    ImageView detailedRepeat;
+    Bill m_bill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +23,11 @@ public class DetailedBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_bill);
         Intent it = getIntent();
         Bundle bd = it.getExtras();
-        Bill b = (Bill) bd.getSerializable("bill");
+        m_bill = (Bill) bd.getSerializable("bill");
         initVariables();
-        detailedName.setText(b.geName());
-        detailedValue.setText(b.getValue());
-        detailedRepeat.setImageResource(b.isEveryMonth() ? R.drawable.repeat : R.drawable.norepeat);
-        initCalendar(b.getDueDate());
+        detailedName.setText(m_bill.geName());
+        detailedValue.setText(m_bill.getValue());
+        initCalendar(m_bill.getDueDate());
     }
 
     private void initCalendar(String date) {
@@ -44,14 +44,11 @@ public class DetailedBillActivity extends AppCompatActivity {
 
         long milliTime = calendar.getTimeInMillis();
         detailedDate.setDate(milliTime, true, true);
-        long a = detailedDate.getDate();
-        detailedDate.setMaxDate(a);
     }
 
     private void initVariables() {
         detailedName = (TextView) findViewById(R.id.detailed_name_text_view);
         detailedDate = (CalendarView) findViewById(R.id.detailed_date_calendar);
         detailedValue = (TextView) findViewById(R.id.detailed_value_text_view);
-        detailedRepeat = (ImageView) findViewById(R.id.detailed_repeat_image_view);
     }
 }

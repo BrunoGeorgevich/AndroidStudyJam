@@ -9,17 +9,12 @@ public class Bill implements Serializable{
     private String m_value;
     private String m_name;
     private String m_dueDate;
-    private boolean m_everyMonth;
 
-    public Bill(double v, String n, String d, boolean b) {
-        m_value=String.valueOf(v); m_name=n; m_dueDate=d; m_everyMonth=b;
+    public Bill(double v, String n, String d) {
+        m_value=String.valueOf(v); m_name=n; m_dueDate=d;
     }
-    public Bill(String v, String n, String d, boolean b) {
-        m_value=v; m_name=n; m_dueDate=d; m_everyMonth=b;
-    }
-
-    public boolean isEveryMonth() {
-        return m_everyMonth;
+    public Bill(String v, String n, String d) {
+        m_value=v; m_name=n; m_dueDate=d;
     }
 
     public String getDueDate() {
@@ -32,5 +27,13 @@ public class Bill implements Serializable{
 
     public String getValue() {
         return "$" + m_value;
+    }
+
+    public double getNumberedValue() {
+        return Double.parseDouble(m_value);
+    }
+
+    public String printDetailed() {
+        return " (" + m_dueDate + ") -> " + m_name + " : " + getValue();
     }
 }

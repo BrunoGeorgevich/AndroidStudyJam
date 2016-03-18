@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.Calendar;
-
+import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     ListView billListView;
+    TextView totalTextView;
     BillListViewAdapter adapterBillListView;
     public static final int RQ_NEWBILLACTIVITY = 1;
     public static final int RQ_DETAILEDBILLACTIVITY = 2;
@@ -24,8 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initListView();
-        adapterBillListView.addBill(new Bill("12.5", "Teste", "12/5/2016", true));
+        initViews();
+        adapterBillListView.addBill(new Bill("12.5", "Agua", "12/03/2016"));
+        adapterBillListView.addBill(new Bill("80.5", "Taxi", "22/01/2016"));
+        adapterBillListView.addBill(new Bill("121", "Darksouls", "14/05/2016"));
     }
 
     public void goAddBillActivity(View view) {
@@ -56,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-    private void initListView() {
-        adapterBillListView = new BillListViewAdapter(this);
+    private void initViews() {
+        totalTextView = (TextView) findViewById(R.id.total_text_view);
+        adapterBillListView = new BillListViewAdapter(this,totalTextView);
         billListView = (ListView) findViewById(R.id.bill_list_view);
         billListView.setAdapter(adapterBillListView);
         billListView.setOnItemClickListener(new BillListItemListener());
@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         }
         Bill b = (Bill) data.getSerializableExtra("bill");
         adapterBillListView.addBill(b);
+    }
+
+    public void sendCostFromEmail(View view) {
+        Intent it = adapterBillListView.generateEmailData();
+        startActivity(it);
     }
 
     private class BillListItemListener implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
